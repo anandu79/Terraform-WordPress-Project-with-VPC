@@ -8,7 +8,7 @@ project_name             = "terraform"
 project_environment      = "dev"
 project_subnets          = 3
 frontend-webaccess-ports = [80, 443]
-hosted_zone              = "enter your hosted zone"
+hosted_zone              = "enter your hosted zone ID"
 
 mysql_root_password  = "mysqlroot123"
 mysql_extra_username = "wordpress"
