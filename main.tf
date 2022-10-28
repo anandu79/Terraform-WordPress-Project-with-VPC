@@ -261,12 +261,12 @@ module "vpc" {
 
 
     data "aws_route53_zone" "web" {
-      name         = "anandu.tech"
+      name         = "domain.com"
       private_zone = false
     }
     resource "aws_route53_record" "wordpress" {
       zone_id = var.hosted_zone
-      name    = "wordpress.anandu.tech"
+      name    = "Enter your domain name"
       type    = "CNAME"
       ttl     = 5
       records = [aws_instance.frontend.public_dns]
