@@ -1,4 +1,4 @@
-# Terraform-WordPress-Project-with-VPC
+# Terraform WordPress Project with VPC
 
 Here, I have created a WordPress website using terraform. I have created a VPC with 3 public subnets, 3 private subnets, a public and private route tables, 1 internet gateway, one NAT gateway.
 
