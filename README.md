@@ -75,7 +75,7 @@ data "aws_availability_zones" "az" {
 vim main.tf
 ```
 
-###### VPC creation
+## VPC creation
 
 ```
 resource "aws_vpc" "main" {
@@ -89,7 +89,7 @@ resource "aws_vpc" "main" {
 }
 ```
 
-###### Internet gateway creation
+## Internet gateway creation
 
 ```
 resource "aws_internet_gateway" "igw" {
@@ -100,7 +100,7 @@ resource "aws_internet_gateway" "igw" {
 }
 ```
 
-###### Creation of 3 public subnets
+## Creation of 3 public subnets
 
 > Here, I am adding the code to create 3 public subnets in one resource code:
 
@@ -117,7 +117,7 @@ resource "aws_subnet" "public" {
 }
 ```
 
-###### Creation of 3 private subnets
+## Creation of 3 private subnets
 
 > Same as public subnets, below is the resource code to create 3 private subnets at once:
 
@@ -134,7 +134,7 @@ resource "aws_subnet" "private" {
 }
 ```
 
-###### Elastic IP for NAT gateway
+## Elastic IP for NAT gateway
 
 ```
 resource "aws_eip" "nat" {
@@ -145,7 +145,7 @@ resource "aws_eip" "nat" {
 }
 ```
 
-###### NAT gateway creation
+## NAT gateway creation
 
 ```
 resource "aws_nat_gateway" "nat" {
@@ -160,9 +160,55 @@ resource "aws_nat_gateway" "nat" {
 }
 ```
 
+## Route table creation for the public subnets
 
+```
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  tags = {
+    Name = "${var.project}-${var.environment}-public"
+  }
+}
+```
 
+## Route table creation for the private subnets
 
+```
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+  tags = {
+    Name = "${var.project}-${var.environment}-private"
+  }
+}
+```
+
+## Route table association of public subnets to public route table
+
+```
+resource "aws_route_table_association" "public_subnbet" {
+  count          = var.subnets
+  subnet_id      = aws_subnet.public["${count.index}"].id
+  route_table_id = aws_route_table.public.id
+}
+```
+
+## Route table association of private subnets to private route table
+
+```
+resource "aws_route_table_association" "private_subnet" {
+  count          = var.subnets
+  subnet_id      = aws_subnet.private["${count.index}"].id
+  route_table_id = aws_route_table.private.id
+}
+```
 
 
 
