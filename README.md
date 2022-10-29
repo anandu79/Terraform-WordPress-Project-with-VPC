@@ -67,6 +67,13 @@ data "aws_availability_zones" "az" {
 }
 ```
 
+## Create main.tf file
+
+>> Create a main.tf file where we add configurations required to create VPC and other resources.
+
+```
+vim main.tf
+```
 
 
 
