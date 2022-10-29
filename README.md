@@ -318,7 +318,7 @@ Now that we have finished creating required modules, we will proceed to create t
 Create another directory and create a variables.tf file in it.
 
 ```
-variables.tf
+vim variables.tf
 ```
 
 Declare the required variables as shown below:
@@ -356,7 +356,7 @@ variable "frontend-webaccess-ports" {
 vim provider.tf
 ```
 
-> A provider in Terraform is a plugin that enables interaction with an API. Here I'm using AWS provider, so add the below files in it.
+> A provider in Terraform is a plugin that enables interaction with an API. Here I'm using AWS provider, so add the below contents in it.
 
 ```
 provider "aws" {
@@ -375,7 +375,7 @@ provider "aws" {
 vim terraform.tfvars
 ```
 
-In this file we will provide the actual values of the variables declared in the variables.tf file.
+In this file we will provide the actual values of the variables.
 
 ```
 instance_type            = "t2.micro"
