@@ -69,11 +69,97 @@ data "aws_availability_zones" "az" {
 
 ## Create main.tf file
 
->> Create a main.tf file where we add configurations required to create VPC and other resources.
+> Create a main.tf file where we add configurations required to create VPC and other resources.
 
 ```
 vim main.tf
 ```
+
+###### VPC creation
+
+```
+resource "aws_vpc" "main" {
+  cidr_block           = var.vpc_cidr
+  instance_tenancy     = "default"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  tags = {
+    Name = "${var.project}-${var.environment}"
+  }
+}
+```
+
+###### Internet gateway creation
+
+```
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.project}-${var.environment}"
+  }
+}
+```
+
+###### Creation of 3 public subnets
+
+> Here, I am adding the code to create 3 public subnets in one resource code:
+
+```
+resource "aws_subnet" "public" {
+  count                   = var.subnets
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = cidrsubnet(var.vpc_cidr, 4, count.index + 0)
+  availability_zone       = data.aws_availability_zones.az.names[count.index]
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "${var.project}-${var.environment}-public-${1 + count.index}"
+  }
+}
+```
+
+###### Creation of 3 private subnets
+
+> Same as public subnets, below is the resource code to create 3 private subnets at once:
+
+```
+resource "aws_subnet" "private" {
+  count                   = var.subnets
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = cidrsubnet(var.vpc_cidr, 4, count.index + var.subnets)
+  availability_zone       = data.aws_availability_zones.az.names[count.index]
+  map_public_ip_on_launch = false
+  tags = {
+    Name = "${var.project}-${var.environment}-private-${1 + count.index}"
+  }
+}
+```
+
+###### Elastic IP for NAT gateway
+
+```
+resource "aws_eip" "nat" {
+  vpc = true
+  tags = {
+    Name = "${var.project}-${var.environment}-nat"
+  }
+}
+```
+
+###### NAT gateway creation
+
+```
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public[0].id
+  tags = {
+    Name = "${var.project}-${var.environment}"
+  }
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.igw]
+}
+```
+
 
 
 
