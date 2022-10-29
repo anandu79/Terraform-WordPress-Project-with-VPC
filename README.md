@@ -25,12 +25,14 @@ yum -y install terraform
 There is also an other directory created in the module for adding configurations required for creating the bastion security group. I have named it `sgroup`. This bastion instance is used to provide SSH access to frontend and backend instances.
 
 ###### Why do we use modules in Terraform?
+
 >A Terraform module is a collection of standard configuration files in a dedicated directory. Terraform modules encapsulate groups of resources dedicated to one task, reducing the amount of code you have to develop for similar infrastructure components.
 
 ## Let us proceed to create the modules required for the VPC and bastion securtity group
-###### VPC module
+## VPC module
 
-Create a file variables.tf to declare variables in `/var/terraform/modules/`
+Create a file variables.tf to declare variables in `/var/terraform/modules/vpc`
+
 > Please note that terraform files should have .tf extension
 
 ```
@@ -48,6 +50,23 @@ variable "environment" {
   default = "demo"
 }
 ```
+
+## Create a datasource.tf file
+
+> This datasource.tf file is used to get the details regarding the availability zone.
+
+```
+vim datasource.tf
+```
+
+Add the contents:
+
+```
+data "aws_availability_zones" "az" {
+  state = "available"
+}
+```
+
 
 
 
