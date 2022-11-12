@@ -412,7 +412,7 @@ Ceeate a main.tf file and add the below contents in it.
 
     module "vpc" {
    
-    source      = "/var/terraform/modules/vpc/"            #========> Here we have mentioned the module directory where we have added the code to create the VPC.
+    source      = "/var/terraform/modules/vpc/"         #====> Here we have mentioned the module directory where we have added the code to create the VPC.
     vpc_cidr    = var.project_vpc_cidr
     subnets     = var.project_subnets
     project     = var.project_name
@@ -425,7 +425,7 @@ Ceeate a main.tf file and add the below contents in it.
 
   module "sg-bastion" {
 
-    source         = "/var/terraform/modules/sgroup/"      #========> Mentioned the module directory where we have added the code to create the security group.
+    source         = "/var/terraform/modules/sgroup/"   #====> Mentioned the module directory where we have added the code to create the security group.
     project        = var.project_name
     environment    = var.project_environment
     sg_name        = "bastion"
@@ -646,6 +646,8 @@ Add a code to create Keypair:
 
 Add the below code to create the Bastion, frontend, and backend instances:
 
+> Among them, WordPress is installed in the frontend instance, the database is installed in the backend instance, and the bastion instance will provide SSH access into the frontend and backend instances from the allowed IP address.
+
 ```
 ###############################################
 # Bastion Instance
@@ -741,7 +743,7 @@ sudo systemctl restart httpd
 Add the below code to create template_file in the main.tf
 
 ###### What is a template_file?
->>The template_file data source renders a template from a template string, which is usually loaded from an external file.
+> The template_file data source renders a template from a template string, which is usually loaded from an external file.
 
 ```
 vim main.tf
