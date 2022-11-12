@@ -288,7 +288,7 @@ variable "sg_description" {}
 variable "sg_vpc" {}
 ```
 
-## Create a main.tf file to add the configurations required to create the VPC.
+## Create a main.tf file to add the configurations required to create the security group.
 
 ```
 vim main.tf
@@ -315,7 +315,7 @@ resource "aws_security_group" "sg" {
 ```
 
 Now that we have finished creating required modules, we will proceed to create the instances and other resources required for the WordPress website.
-Create another directory and create a variables.tf file in it.
+Create another eorking directory and create a variables.tf file in it.
 
 ```
 vim variables.tf
