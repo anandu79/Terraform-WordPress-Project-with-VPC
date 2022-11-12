@@ -804,7 +804,7 @@ output "database_instanceprivate_ip" {
 
 ## Terraform Validation
 
->> This will check for any errors on the source code
+> This will check for any errors on the source code
 
 ```
 terraform validate
@@ -812,7 +812,7 @@ terraform validate
 
 ## Terraform plan
 
->>The terraform plan command provides a preview of the actions that Terraform will take in order to configure resources per the configuration file.
+> The terraform plan command provides a preview of the actions that Terraform will take in order to configure resources per the configuration file.
 
 ```
 terraform plan
@@ -820,7 +820,7 @@ terraform plan
 
 ## Terraform apply
 
->>This will execute the .tf file we have created
+>This will execute the .tf file we have created
 
 ```
 terraform apply
