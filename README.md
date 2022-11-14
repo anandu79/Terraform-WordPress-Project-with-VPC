@@ -828,13 +828,7 @@ terraform plan
 terraform apply
 ```
 
-# Conclusion
 
-After execution, we will receive a WordPress installation page when "domain.com" in a browser.
-
-###### Connect with me
-
-:call_me_hand:	Connect with me
 
 
 
